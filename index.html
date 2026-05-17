@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeQuest — Plataforma Avançada de Programação</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="app-container" id="mainAppLayout">
+    
+    <aside class="left-sidebar">
+      <div class="logo-area">
+        <span class="logo-icon">&lt;/&gt;</span>
+        <h1 class="logo-text">CodeQuest</h1>
+      </div>
+      <nav class="nav-menu">
+        <button class="nav-item active" onclick="appNavigation.changeTab('aprender')">
+          <span class="nav-emoji">📖</span> Aprender
+        </button>
+        <button class="nav-item" onclick="appNavigation.changeTab('ranking')">
+          <span class="nav-emoji">🏆</span> Classificação
+        </button>
+        <button class="nav-item" onclick="appNavigation.changeTab('perfil')">
+          <span class="nav-emoji">👤</span> Perfil
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <span class="version-label">Versão 2026.4 v2</span>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      
+      <section id="tab-aprender" class="tab-panel active">
+        <div class="learning-roadmap" id="roadmapContainer">
+          </div>
+      </section>
+
+      <section id="tab-ranking" class="tab-panel">
+        <div class="ranking-panel-mobile">
+          <h2>Tabela de Classificação Global</h2>
+          <p>Suba de liga acumulando pontos de experiência diários.</p>
+          <div class="ranking-list" id="mobileRankingList"></div>
+        </div>
+      </section>
+
+      <section id="tab-perfil" class="tab-panel">
+        <div class="profile-card">
+          <div class="profile-avatar">👤</div>
+          <h2 id="profileName">Desenvolvedor CodeQuest</h2>
+          <p>Membro ativo desde maio de 2026</p>
+          <hr style="margin: 20px 0; border: 0; border-top: 1px solid var(--border);"/>
+          <button class="btn-danger" onclick="localStorage.clear(); location.reload();">Resetar Todo o Progresso</button>
+        </div>
+      </section>
+
+    </main>
+
+    <aside class="right-sidebar">
+      
+      <div class="stats-status-bar">
+        <div class="stat-widget" title="Pontos de Experiência Totais">
+          <span class="stat-emoji">🔥</span>
+          <span class="stat-value" id="globalXP">0</span> XP
+        </div>
+        <div class="stat-widget" title="Dias seguidos jogando">
+          <span class="stat-emoji">⚡</span>
+          <span class="stat-value" id="globalStreak">1</span> Dias
+        </div>
+      </div>
+
+      <div class="sidebar-widget">
+        <h3 class="widget-title">Missões Diárias</h3>
+        <div class="missions-list" id="dailyMissionsContainer">
+          </div>
+      </div>
+
+      <div class="sidebar-widget">
+        <h3 class="widget-title">Liga dos Campeões</h3>
+        <div class="ranking-list" id="sidebarRankingList">
+          </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <div class="lesson-fullscreen-layer" id="lessonModal">
+    <div class="lesson-header">
+      <button class="close-lesson-btn" onclick="appEngine.exitLesson()">✕</button>
+      <div class="progress-container">
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="lessonProgressBar"></div>
+        </div>
+      </div>
+      <div class="lives-indicator" id="lessonLives">
+        </div>
+    </div>
+
+    <div class="lesson-body-wrapper">
+      <div class="question-container" id="questionBox">
+        </div>
+    </div>
+
+    <div class="lesson-footer-action">
+      <div class="footer-content">
+        <div class="feedback-message-box" id="feedbackMessage">
+          </div>
+        <button class="btn-action-primary" id="btnMainAction" onclick="appEngine.processFooterClick()" disabled>
+          Verificar Resposta
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="xp-toast" id="xpToast"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
