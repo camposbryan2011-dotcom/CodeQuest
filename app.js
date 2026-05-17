@@ -36,7 +36,6 @@ const appNavigation = {
     document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
     
-    // Altera classe ativa do botão acionado
     const targetBtn = document.querySelector(`button[onclick*="'${tabId}'"]`);
     if(targetBtn) targetBtn.classList.add('active');
     
@@ -52,62 +51,67 @@ const appNavigation = {
     container.innerHTML = '';
 
     CODEQUEST_ROADMAP.fases.forEach(fase => {
-      // Container da Fase
+      // Container da Fase — criado uma única vez por fase
       const faseBlock = document.createElement('div');
       faseBlock.className = 'phase-block';
-      faseBlock.innerHTML = `
-        <div class="phase-header-block">
-          <h2 class="phase-title">${fase.nome}</h2>
-          <p class="phase-desc">${fase.descricao}</p>
-        </div>
+
+      const faseHeader = document.createElement('div');
+      faseHeader.className = 'phase-header-block';
+      faseHeader.innerHTML = `
+        <h2 class="phase-title">${fase.nome}</h2>
+        <p class="phase-desc">${fase.descricao}</p>
       `;
+      faseBlock.appendChild(faseHeader);
 
       // Renderização interna dos Módulos da fase
       fase.modulos.forEach((modulo, indexMod) => {
         const modWrapper = document.createElement('div');
         modWrapper.className = 'module-wrapper';
         modWrapper.style.marginTop = '24px';
-        
-        modWrapper.innerHTML = `
-          <div class="module-meta-info">
-            <div class="module-title-container">
-              <span class="module-emoji-badge">${modulo.emoji}</span>
-              <h3 class="module-title-text">${modulo.nome}</h3>
-            </div>
-            <span class="module-bonus-tag">+${modulo.xpBono} XP de Bônus de Conclusão</span>
-          </div>
-          <div class="nodes-spine-flow" id="nodes-flow-${modulo.id}"></div>
-        `;
-        
-        faseBlock.appendChild(modWrapper);
-        faseBlock.appendChild(document.createElement('br'));
-        container.appendChild(faseBlock);
 
-        // Fluxo de nós esféricos estilo Duolingo
-        const flowContainer = document.getElementById(`nodes-flow-${modulo.id}`);
+        // Meta info do módulo
+        const metaInfo = document.createElement('div');
+        metaInfo.className = 'module-meta-info';
+        metaInfo.innerHTML = `
+          <div class="module-title-container">
+            <span class="module-emoji-badge">${modulo.emoji}</span>
+            <h3 class="module-title-text">${modulo.nome}</h3>
+          </div>
+          <span class="module-bonus-tag">+${modulo.xpBono} XP de Bônus de Conclusão</span>
+        `;
+        modWrapper.appendChild(metaInfo);
+
+        // Flow container criado diretamente (sem getElementById)
+        const flowContainer = document.createElement('div');
+        flowContainer.className = 'nodes-spine-flow';
+
+        // Fluxo de nós estilo Duolingo
         modulo.licoes.forEach((licao, indexLic) => {
           const nodeButton = document.createElement('button');
           
           const isCompleted = appState.user.completedLessons.includes(licao.id);
-          // Regra de Desbloqueio: Primeira lição livre, subsequentes dependem da conclusão da anterior
           let isAvailable = false;
           if (indexMod === 0 && indexLic === 0) {
             isAvailable = true;
           } else {
-            // Verifica lição anterior do mesmo módulo ou módulo anterior
             isAvailable = this.checkPreviousLessonAccess(fase, indexMod, indexLic);
           }
 
           nodeButton.className = `lesson-circle-node ${isCompleted ? 'completed' : isAvailable ? 'available' : 'locked'}`;
-          nodeButton.innerHTML = isCompleted ? '✓' : licao.questoes.length === 0 ? '🔒' : modulo.emoji;
-          
-          // Tooltip Flutuante Hover
-          nodeButton.innerHTML += `
-            <div class="node-floating-tooltip">
-              <span class="tooltip-title">${licao.titulo}</span>
-              <span class="tooltip-sub">${isCompleted ? 'Concluído' : isAvailable ? `Disponível • +${licao.xp} XP` : 'Bloqueado'}</span>
-            </div>
+
+          // Conteúdo do botão
+          const iconSpan = document.createElement('span');
+          iconSpan.textContent = isCompleted ? '✓' : licao.questoes.length === 0 ? '🔒' : modulo.emoji;
+          nodeButton.appendChild(iconSpan);
+
+          // Tooltip
+          const tooltip = document.createElement('div');
+          tooltip.className = 'node-floating-tooltip';
+          tooltip.innerHTML = `
+            <span class="tooltip-title">${licao.titulo}</span>
+            <span class="tooltip-sub">${isCompleted ? 'Concluído' : isAvailable ? 'Disponível • +' + licao.xp + ' XP' : 'Bloqueado'}</span>
           `;
+          nodeButton.appendChild(tooltip);
 
           if(isAvailable && licao.questoes.length > 0) {
             nodeButton.onclick = () => appEngine.openLesson(licao, modulo);
@@ -115,7 +119,14 @@ const appNavigation = {
 
           flowContainer.appendChild(nodeButton);
         });
+
+        modWrapper.appendChild(flowContainer);
+        faseBlock.appendChild(modWrapper);
+        faseBlock.appendChild(document.createElement('br'));
       });
+
+      // Adiciona a fase ao container APENAS uma vez, depois de montar tudo
+      container.appendChild(faseBlock);
     });
   },
 
@@ -157,12 +168,10 @@ const appEngine = {
   },
 
   generateRankingHTML() {
-    // Sincroniza XP do usuário na lista do ranking em tempo real
     const rankingMock = [...CODEQUEST_ROADMAP.rankingEstatico];
     const userRow = rankingMock.find(r => r.isUser);
     if(userRow) userRow.xp = appState.user.xp;
     
-    // Ordena posições dinamicamente por maior XP
     rankingMock.sort((a,b) => b.xp - a.xp);
 
     return rankingMock.map((player, idx) => `
@@ -183,7 +192,6 @@ const appEngine = {
     const container = document.getElementById('dailyMissionsContainer');
     if(!container) return;
 
-    // Atualização simulada dos objetivos com base no estado do usuário
     const m1 = CODEQUEST_ROADMAP.missoesDiarias[0];
     m1.atual = Math.min(appState.user.xp, m1.meta);
     m1.concluida = m1.atual >= m1.meta;
@@ -192,12 +200,14 @@ const appEngine = {
     m2.atual = Math.min(appState.user.completedLessons.length, m2.meta);
     m2.concluida = m2.atual >= m2.meta;
 
-    const m3 = CODEQUEST_ROADMAP.missoesDiarias[2];
-    m3.atual = Math.min(appState.user.correctStreak || 0, m3.meta);
-    m3.concluida = m3.atual >= m3.meta;
+    if (CODEQUEST_ROADMAP.missoesDiarias[2]) {
+      const m3 = CODEQUEST_ROADMAP.missoesDiarias[2];
+      m3.atual = Math.min(appState.user.correctStreak || 0, m3.meta);
+      m3.concluida = m3.atual >= m3.meta;
+    }
 
     container.innerHTML = CODEQUEST_ROADMAP.missoesDiarias.map(m => {
-      const pct = (m.atual / m.meta) * 100;
+      const pct = Math.min((m.atual / m.meta) * 100, 100);
       return `
         <div class="mission-item ${m.concluida ? 'done' : ''}">
           <div class="mission-row-info">
@@ -242,6 +252,7 @@ const appEngine = {
     feedbackBox.innerHTML = "";
     actionBtn.textContent = "Verificar Resposta";
     actionBtn.setAttribute('disabled', 'true');
+    actionBtn.onclick = () => appEngine.processFooterClick();
     
     appState.isAnswerChecked = false;
     appState.selectedAnswer = null;
@@ -408,10 +419,9 @@ const appEngine = {
     
     actionBtn.textContent = "Fechar e Voltar";
     actionBtn.removeAttribute('disabled');
-    // Força alteração da função temporária do clique do rodapé para fechar
     actionBtn.onclick = () => {
       document.getElementById('lessonModal').classList.remove('active');
-      actionBtn.onclick = () => appEngine.processFooterClick(); // restaura ponteiro original
+      actionBtn.onclick = () => appEngine.processFooterClick();
     };
 
     if(isWin) {
