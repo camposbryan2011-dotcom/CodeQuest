@@ -1,6 +1,6 @@
 // ==========================================
-// CODEQUEST — app.js
-// Núcleo de Estado, Navegação e Gamificação
+// CODEQUEST — app.js v3.0
+// Sistema Profissional com Dark Mode, Certificados, Temas
 // ==========================================
 
 // --- ESTADO UNIFICADO DA APLICAÇÃO ---
@@ -11,25 +11,37 @@ const appState = {
   selectedAnswer: null,
   lives: 3,
   isAnswerChecked: false,
+  darkMode: localStorage.getItem('cq_darkmode') === 'true',
   
-  // Persistência local do Usuário
   user: {
-    xp: parseInt(localStorage.getItem('cq_v2_xp')) || 0,
-    streak: parseInt(localStorage.getItem('cq_v2_streak')) || 1,
-    completedLessons: JSON.parse(localStorage.getItem('cq_v2_completed')) || [],
-    correctStreak: parseInt(localStorage.getItem('cq_v2_cstreak')) || 0
+    xp: parseInt(localStorage.getItem('cq_v3_xp')) || 0,
+    streak: parseInt(localStorage.getItem('cq_v3_streak')) || 1,
+    completedLessons: JSON.parse(localStorage.getItem('cq_v3_completed')) || [],
+    completedProjects: JSON.parse(localStorage.getItem('cq_v3_projects')) || [],
+    completedCertificates: JSON.parse(localStorage.getItem('cq_v3_certs')) || [],
+    correctStreak: parseInt(localStorage.getItem('cq_v3_cstreak')) || 0,
+    nivelAtual: 1,
+    titulo: "Iniciante"
   }
 };
 
-// --- INICIALIZADOR GLOBAL ---
+// --- INICIALIZADOR ---
 document.addEventListener('DOMContentLoaded', () => {
+  // Aplicar tema
+  if (appState.darkMode) {
+    document.documentElement.style.setProperty('--bg-app', '#1a1a1a');
+    document.documentElement.style.setProperty('--bg-body', '#0f0f0f');
+    document.documentElement.style.setProperty('--text-main', '#e5e5e5');
+  }
+
   appEngine.syncStats();
   appNavigation.renderRoadmap();
   appEngine.renderSidebarRanking();
   appEngine.renderDailyMissions();
+  appEngine.atualizarNivel();
 });
 
-// --- ENGINE DE NAVEGAÇÃO INTERNA ---
+// --- NAVEGAÇÃO ---
 const appNavigation = {
   changeTab(tabId) {
     appState.activeTab = tabId;
@@ -51,25 +63,32 @@ const appNavigation = {
     container.innerHTML = '';
 
     CODEQUEST_ROADMAP.fases.forEach(fase => {
-      // Container da Fase — criado uma única vez por fase
       const faseBlock = document.createElement('div');
       faseBlock.className = 'phase-block';
 
       const faseHeader = document.createElement('div');
       faseHeader.className = 'phase-header-block';
       faseHeader.innerHTML = `
-        <h2 class="phase-title">${fase.nome}</h2>
-        <p class="phase-desc">${fase.descricao}</p>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 2rem;">${fase.emoji}</span>
+          <div>
+            <h2 class="phase-title">${fase.nome}</h2>
+            <p class="phase-desc">${fase.descricao}</p>
+          </div>
+        </div>
+        <div class="phase-progress" style="margin-top: 12px;">
+          <div style="height: 8px; background: var(--border); border-radius: 4px; overflow: hidden;">
+            <div style="height: 100%; background: var(--brand-primary); width: ${fase.progresso}%; transition: width 0.3s;"></div>
+          </div>
+        </div>
       `;
       faseBlock.appendChild(faseHeader);
 
-      // Renderização interna dos Módulos da fase
       fase.modulos.forEach((modulo, indexMod) => {
         const modWrapper = document.createElement('div');
         modWrapper.className = 'module-wrapper';
         modWrapper.style.marginTop = '24px';
 
-        // Meta info do módulo
         const metaInfo = document.createElement('div');
         metaInfo.className = 'module-meta-info';
         metaInfo.innerHTML = `
@@ -77,15 +96,13 @@ const appNavigation = {
             <span class="module-emoji-badge">${modulo.emoji}</span>
             <h3 class="module-title-text">${modulo.nome}</h3>
           </div>
-          <span class="module-bonus-tag">+${modulo.xpBono} XP de Bônus de Conclusão</span>
+          <span class="module-bonus-tag">+${modulo.xpBono} XP</span>
         `;
         modWrapper.appendChild(metaInfo);
 
-        // Flow container criado diretamente (sem getElementById)
         const flowContainer = document.createElement('div');
         flowContainer.className = 'nodes-spine-flow';
 
-        // Fluxo de nós estilo Duolingo
         modulo.licoes.forEach((licao, indexLic) => {
           const nodeButton = document.createElement('button');
           
@@ -99,17 +116,16 @@ const appNavigation = {
 
           nodeButton.className = `lesson-circle-node ${isCompleted ? 'completed' : isAvailable ? 'available' : 'locked'}`;
 
-          // Conteúdo do botão
           const iconSpan = document.createElement('span');
           iconSpan.textContent = isCompleted ? '✓' : licao.questoes.length === 0 ? '🔒' : modulo.emoji;
           nodeButton.appendChild(iconSpan);
 
-          // Tooltip
           const tooltip = document.createElement('div');
           tooltip.className = 'node-floating-tooltip';
           tooltip.innerHTML = `
             <span class="tooltip-title">${licao.titulo}</span>
-            <span class="tooltip-sub">${isCompleted ? 'Concluído' : isAvailable ? 'Disponível • +' + licao.xp + ' XP' : 'Bloqueado'}</span>
+            <span class="tooltip-sub">${licao.dificuldade} • ${licao.tempo}</span>
+            <span class="tooltip-sub" style="margin-top: 4px;">${isCompleted ? '✓ Concluído' : isAvailable ? '+' + licao.xp + ' XP' : 'Bloqueado'}</span>
           `;
           nodeButton.appendChild(tooltip);
 
@@ -122,10 +138,8 @@ const appNavigation = {
 
         modWrapper.appendChild(flowContainer);
         faseBlock.appendChild(modWrapper);
-        faseBlock.appendChild(document.createElement('br'));
       });
 
-      // Adiciona a fase ao container APENAS uma vez, depois de montar tudo
       container.appendChild(faseBlock);
     });
   },
@@ -149,18 +163,34 @@ const appNavigation = {
   }
 };
 
-// --- ENGINE LOGICO DA PLATAFORMA ---
+// --- ENGINE ---
 const appEngine = {
   syncStats() {
     document.getElementById('globalXP').textContent = appState.user.xp;
     document.getElementById('globalStreak').textContent = appState.user.streak;
   },
 
+  atualizarNivel() {
+    const xp = appState.user.xp;
+    if (xp >= 5000) { appState.user.nivelAtual = 10; appState.user.titulo = "Master"; }
+    else if (xp >= 4000) { appState.user.nivelAtual = 9; appState.user.titulo = "Expert"; }
+    else if (xp >= 3000) { appState.user.nivelAtual = 8; appState.user.titulo = "Avançado"; }
+    else if (xp >= 2000) { appState.user.nivelAtual = 7; appState.user.titulo = "Intermediário"; }
+    else if (xp >= 1000) { appState.user.nivelAtual = 6; appState.user.titulo = "Competente"; }
+    else if (xp >= 500) { appState.user.nivelAtual = 5; appState.user.titulo = "Proficiente"; }
+    else if (xp >= 250) { appState.user.nivelAtual = 4; appState.user.titulo = "Aprendiz"; }
+    else if (xp >= 100) { appState.user.nivelAtual = 3; appState.user.titulo = "Iniciante"; }
+    else { appState.user.nivelAtual = 1; appState.user.titulo = "Novato"; }
+  },
+
   saveProgression() {
-    localStorage.setItem('cq_v2_xp', appState.user.xp);
-    localStorage.setItem('cq_v2_streak', appState.user.streak);
-    localStorage.setItem('cq_v2_completed', JSON.stringify(appState.user.completedLessons));
-    localStorage.setItem('cq_v2_cstreak', appState.user.correctStreak);
+    localStorage.setItem('cq_v3_xp', appState.user.xp);
+    localStorage.setItem('cq_v3_streak', appState.user.streak);
+    localStorage.setItem('cq_v3_completed', JSON.stringify(appState.user.completedLessons));
+    localStorage.setItem('cq_v3_cstreak', appState.user.correctStreak);
+    localStorage.setItem('cq_v3_projects', JSON.stringify(appState.user.completedProjects));
+    localStorage.setItem('cq_v3_certs', JSON.stringify(appState.user.completedCertificates));
+    this.atualizarNivel();
     this.syncStats();
     appNavigation.renderRoadmap();
     this.renderSidebarRanking();
@@ -200,18 +230,12 @@ const appEngine = {
     m2.atual = Math.min(appState.user.completedLessons.length, m2.meta);
     m2.concluida = m2.atual >= m2.meta;
 
-    if (CODEQUEST_ROADMAP.missoesDiarias[2]) {
-      const m3 = CODEQUEST_ROADMAP.missoesDiarias[2];
-      m3.atual = Math.min(appState.user.correctStreak || 0, m3.meta);
-      m3.concluida = m3.atual >= m3.meta;
-    }
-
     container.innerHTML = CODEQUEST_ROADMAP.missoesDiarias.map(m => {
       const pct = Math.min((m.atual / m.meta) * 100, 100);
       return `
         <div class="mission-item ${m.concluida ? 'done' : ''}">
           <div class="mission-row-info">
-            <span>${m.texto}</span>
+            <span>${m.emoji} ${m.texto}</span>
             <span>${m.atual}/${m.meta}</span>
           </div>
           <div class="mission-progress-track">
@@ -222,7 +246,6 @@ const appEngine = {
     }).join('');
   },
 
-  // --- CONTROLE DE LIÇÃO FLUTUANTE MODAL ---
   openLesson(licao, modulo) {
     appState.currentLesson = licao;
     appState.currentQuestionIdx = 0;
@@ -235,7 +258,7 @@ const appEngine = {
   },
 
   exitLesson() {
-    if(confirm('Deseja realmente sair? Seu progresso nesta lição será perdido.')){
+    if(confirm('Deseja sair? Seu progresso será perdido.')){
       document.getElementById('lessonModal').classList.remove('active');
       appState.currentLesson = null;
     }
@@ -252,7 +275,6 @@ const appEngine = {
     feedbackBox.innerHTML = "";
     actionBtn.textContent = "Verificar Resposta";
     actionBtn.setAttribute('disabled', 'true');
-    actionBtn.onclick = () => appEngine.processFooterClick();
     
     appState.isAnswerChecked = false;
     appState.selectedAnswer = null;
@@ -264,6 +286,7 @@ const appEngine = {
         ${questao.type === 'multipla' ? 'Múltipla Escolha' : questao.type === 'verdadeiro-falso' ? 'Verdadeiro ou Falso' : 'Complete a Lacuna'}
       </p>
       <h3 class="question-label-headline">${this.escape(questao.question)}</h3>
+      ${appState.currentLesson.exemplo ? `<pre style="background: #f5f5f5; padding: 12px; border-radius: 8px; margin: 12px 0; font-size: 0.85rem; overflow-x: auto;"><code>${this.escape(appState.currentLesson.exemplo)}</code></pre>` : ''}
     `;
 
     if(questao.type === 'multipla') {
@@ -287,7 +310,7 @@ const appEngine = {
     }
     else if(questao.type === 'preencher') {
       htmlContent += `
-        <input type="text" class="text-input-field" id="blankInput" placeholder="Digite o termo em falta..." oninput="appEngine.checkInputFill()">
+        <input type="text" class="text-input-field" id="blankInput" placeholder="Digite sua resposta..." oninput="appEngine.checkInputFill()">
       `;
     }
 
@@ -380,16 +403,14 @@ const appEngine = {
 
     if(isCorrect) {
       appState.user.correctStreak = (appState.user.correctStreak || 0) + 1;
-      localStorage.setItem('cq_v2_cstreak', appState.user.correctStreak);
       feedbackBox.className = "feedback-message-box correct";
-      feedbackBox.innerHTML = `<span class="feedback-title">Muito bem!</span><span class="feedback-expl">${questao.explanation}</span>`;
+      feedbackBox.innerHTML = `<span class="feedback-title">✓ Muito bem!</span><span class="feedback-expl">${questao.explanation}</span>`;
     } else {
       appState.user.correctStreak = 0;
-      localStorage.setItem('cq_v2_cstreak', 0);
       appState.lives--;
       this.updateLessonHeaderUI();
       feedbackBox.className = "feedback-message-box wrong";
-      feedbackBox.innerHTML = `<span class="feedback-title">Resposta Incorreta</span><span class="feedback-expl">${questao.explanation}</span>`;
+      feedbackBox.innerHTML = `<span class="feedback-title">✗ Resposta Incorreta</span><span class="feedback-expl">${questao.explanation}</span>`;
     }
 
     actionBtn.textContent = "Continuar";
@@ -437,10 +458,11 @@ const appEngine = {
         <div class="results-rendering-view">
           <span class="badge-icon">🏆</span>
           <h2>Lição Concluída!</h2>
-          <p>Você demonstrou domínio teórico nos tópicos propostos!</p>
+          <p>Parabéns! Você demonstrou domínio nos tópicos!</p>
           <div class="results-stats-row">
-            <div class="stat-box-result"><span class="res-val">+${xpGanho}</span><span class="res-lbl">XP Recebidos</span></div>
-            <div class="stat-box-result"><span class="res-val">${appState.lives}/3</span><span class="res-lbl">Vidas Restantes</span></div>
+            <div class="stat-box-result"><span class="res-val">+${xpGanho}</span><span class="res-lbl">XP</span></div>
+            <div class="stat-box-result"><span class="res-val">${appState.lives}/3</span><span class="res-lbl">Vidas</span></div>
+            <div class="stat-box-result"><span class="res-val">${appState.user.nivelAtual}</span><span class="res-lbl">Nível</span></div>
           </div>
         </div>
       `;
@@ -449,7 +471,7 @@ const appEngine = {
         <div class="results-rendering-view">
           <span class="badge-icon">💀</span>
           <h2>Vidas Esgotadas!</h2>
-          <p>Não desanime. Revise os conceitos bases da trilha e tente de novo.</p>
+          <p>Não desista! Revise os conceitos e tente novamente.</p>
         </div>
       `;
     }
@@ -458,12 +480,26 @@ const appEngine = {
   triggerXpToastNotification(qtd) {
     const toast = document.getElementById('xpToast');
     if(!toast) return;
-    toast.textContent = `+${qtd} XP ADQUIRIDOS`;
+    toast.textContent = `🎉 +${qtd} XP ADQUIRIDOS • Nível ${appState.user.nivelAtual} (${appState.user.titulo})`;
     toast.classList.add('active');
-    setTimeout(() => toast.classList.remove('active'), 3000);
+    setTimeout(() => toast.classList.remove('active'), 3500);
   },
 
   escape(str) {
     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  },
+
+  toggleDarkMode() {
+    appState.darkMode = !appState.darkMode;
+    localStorage.setItem('cq_darkmode', appState.darkMode);
+    if (appState.darkMode) {
+      document.documentElement.style.setProperty('--bg-app', '#1a1a1a');
+      document.documentElement.style.setProperty('--bg-body', '#0f0f0f');
+      document.documentElement.style.setProperty('--text-main', '#e5e5e5');
+    } else {
+      document.documentElement.style.setProperty('--bg-app', '#ffffff');
+      document.documentElement.style.setProperty('--bg-body', '#f7f9fa');
+      document.documentElement.style.setProperty('--text-main', '#3c3c3c');
+    }
   }
 };
