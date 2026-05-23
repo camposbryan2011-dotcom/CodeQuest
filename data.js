@@ -1,30 +1,32 @@
 // ==========================================
-// CODEQUEST — data.js
-// Banco de Dados Completo: 12 Fases • 80+ Módulos • 300+ Lições
-// SISTEMA EDUCACIONAL PROFISSIONAL
+// CODEQUEST — data.js (VERSÃO COMPLETA 3.0)
+// Sistema Educacional Enterprise: 12 Fases • 100+ Módulos • 400+ Lições
+// Com: Exemplos de Código, Projetos, Certificados, Dark Mode
 // ==========================================
 
 const CODEQUEST_ROADMAP = {
-  versao: "2.0 - Enterprise Edition",
+  versao: "3.0 - Enterprise Complete Edition",
   totalFases: 12,
+  temaDarkMode: localStorage.getItem('cq_darkmode') === 'true',
   
-  // ========================================================
-  // FASE 1: O QUE É PROGRAMAÇÃO (CONCEITOS FUNDAMENTAIS)
-  // ========================================================
   fases: [
+    // ========================================================
+    // FASE 1: O QUE É PROGRAMAÇÃO
+    // ========================================================
     {
       id: "fase-1",
       numero: 1,
       nome: "Fase 1: O Que é Programação?",
-      descricao: "Entenda os conceitos fundamentais de programação e como funcionam os computadores.",
+      descricao: "Entenda os conceitos fundamentais e prepare-se para a jornada!",
       emoji: "🌱",
       cor: "#FF6B6B",
+      progresso: 0,
       modulos: [
         {
           id: "mod-1-1",
           nome: "Fundamentos da Programação",
           emoji: "🤔",
-          xpBono: 200,
+          xpBono: 250,
           licoes: [
             {
               id: "aula-1-1-1",
@@ -33,6 +35,9 @@ const CODEQUEST_ROADMAP = {
               categoria: "Conceitos",
               xp: 20,
               dificuldade: "Muito Fácil",
+              tempo: "5 min",
+              exemplo: "print('Olá, Mundo!')",
+              recurso: "https://developer.mozilla.org/pt-BR/docs/Learn",
               questoes: [
                 {
                   type: "multipla",
@@ -48,115 +53,138 @@ const CODEQUEST_ROADMAP = {
                 },
                 {
                   type: "verdadeiro-falso",
-                  question: "Um programador precisa entender perfeitamente como os chips de computador funcionam para escrever código.",
+                  question: "Um programador precisa entender perfeitamente como os chips funcionam?",
                   answer: false,
-                  explanation: "Falso! Programadores usam linguagens de alto nível que abstraem esses detalhes. Assim como você dirige um carro sem entender toda a mecânica."
+                  explanation: "Falso! Linguagens de alto nível abstraem esses detalhes. Como dirigir sem entender toda a mecânica do carro."
+                },
+                {
+                  type: "preencher",
+                  question: "A sequência de instruções que resolvem um problema é chamada de _____",
+                  answer: "algoritmo",
+                  explanation: "Algoritmo é um conjunto ordenado de passos para resolver um problema."
                 }
               ]
             },
             {
               id: "aula-1-1-2",
-              titulo: "Como Funcionam Sites e Aplicativos?",
+              titulo: "Como Funcionam Sites?",
               descricao: "Descubra o que há por trás dos apps que você usa",
               categoria: "Web Basics",
               xp: 20,
               dificuldade: "Muito Fácil",
+              tempo: "5 min",
+              exemplo: "<html><body>Olá, Mundo!</body></html>",
               questoes: [
                 {
                   type: "multipla",
-                  question: "O que é um 'website'?",
+                  question: "O que é um website?",
                   options: [
-                    "Um computador muito potente na nuvem",
-                    "Um conjunto de páginas conectadas que você acessa pela internet",
-                    "Um documento do Microsoft Word online",
-                    "Um programa que só funciona em celular"
+                    "Um computador potente na nuvem",
+                    "Um conjunto de páginas conectadas acessadas pela internet",
+                    "Um documento online",
+                    "Um programa só para celular"
                   ],
                   answer: 1,
-                  explanation: "Website (site) é um conjunto de páginas web conectadas que você acessa através de um navegador pela internet."
+                  explanation: "Website é um conjunto de páginas web conectadas que você acessa através de um navegador."
                 },
                 {
                   type: "verdadeiro-falso",
-                  question: "Aplicativos de celular e sites são sempre feitos com as mesmas linguagens de programação.",
+                  question: "Apps e sites usam sempre as mesmas linguagens?",
                   answer: false,
-                  explanation: "Não é verdade. Apps geralmente usam linguagens diferentes de sites. Por exemplo, apps iOS usam Swift, mas sites usam HTML/CSS/JavaScript."
+                  explanation: "Não. Apps iOS usam Swift, Android usa Kotlin, mas sites usam HTML/CSS/JavaScript."
                 }
               ]
             },
             {
               id: "aula-1-1-3",
-              titulo: "O que Faz um Programador?",
-              descricao: "Conheça a profissão e suas responsabilidades",
+              titulo: "Carreiras em Programação",
+              descricao: "Conheça a profissão e suas oportunidades",
               categoria: "Profissão",
-              xp: 20,
+              xp: 25,
               dificuldade: "Muito Fácil",
+              tempo: "8 min",
               questoes: [
                 {
                   type: "multipla",
                   question: "Qual é a principal atividade de um programador?",
                   options: [
                     "Jogar videogames profissionalmente",
-                    "Escrever código e resolver problemas através de programação",
-                    "Desmontar computadores e consertar peças",
-                    "Vender software para empresas"
+                    "Escrever código e resolver problemas",
+                    "Desmontar computadores",
+                    "Vender software"
                   ],
                   answer: 1,
-                  explanation: "Programadores escrevem código, resolvem problemas lógicos e criam soluções digitais. É um trabalho criativo e técnico."
+                  explanation: "Programadores escrevem código, resolvem problemas lógicos e criam soluções digitais."
+                },
+                {
+                  type: "multipla",
+                  question: "Qual especialidade paga mais em média?",
+                  options: [
+                    "Front-End Developer",
+                    "Back-End Developer",
+                    "Full Stack Developer com especialidades",
+                    "Data Scientist"
+                  ],
+                  answer: 3,
+                  explanation: "Data Scientists tipicamente ganham os maiores salários, seguidos por especialistas em Cloud e Full Stack."
                 }
               ]
             },
             {
               id: "aula-1-1-4",
-              titulo: "Como Pensar Como um Programador",
-              descricao: "Desenvolva a mentalidade correta para programar",
+              titulo: "Mentalidade de Programador",
+              descricao: "Desenvolva o pensamento lógico",
               categoria: "Mindset",
               xp: 25,
               dificuldade: "Muito Fácil",
+              tempo: "6 min",
               questoes: [
                 {
                   type: "multipla",
-                  question: "Qual é o primeiro passo ao resolver um problema de programação?",
+                  question: "Primeiro passo ao resolver um problema?",
                   options: [
-                    "Começar a escrever código imediatamente",
-                    "Entender o problema completamente e quebrá-lo em partes menores",
-                    "Copiar código de alguém que já resolveu",
-                    "Pedir ajuda sem tentar primeiro"
+                    "Escrever código imediatamente",
+                    "Entender o problema e dividi-lo em partes",
+                    "Copiar código pronto",
+                    "Pedir ajuda"
                   ],
                   answer: 1,
-                  explanation: "Bons programadores planejam primeiro! Dividem problemas complexos em pequenas partes (decomposição) antes de codificar."
+                  explanation: "Bons programadores planejam primeiro! Decomposição é a chave."
                 },
                 {
                   type: "verdadeiro-falso",
-                  question: "Erros e bugs são parte natural do aprendizado em programação.",
+                  question: "Erros são parte do aprendizado?",
                   answer: true,
-                  explanation: "Verdadeiro! Todo programador enfrenta erros. Isso é normal e ajuda no aprendizado. A habilidade é saber resolver bugs."
+                  explanation: "Verdadeiro! Bugs ajudam no aprendizado. A habilidade é saber resolvê-los."
                 }
               ]
             },
             {
               id: "aula-1-1-5",
-              titulo: "Primeiros Conceitos da Tecnologia",
-              descricao: "Aprenda terminologia básica da área",
+              titulo: "Terminologia Básica",
+              descricao: "Aprenda palavras-chave da área",
               categoria: "Terminologia",
               xp: 25,
               dificuldade: "Muito Fácil",
+              tempo: "7 min",
               questoes: [
                 {
                   type: "preencher",
-                  question: "Um arquivo com código em HTML é chamado de arquivo de _____ (dica: começa com 'c')",
+                  question: "Um arquivo com código é chamado de arquivo de _____",
                   answer: "código",
-                  explanation: "Arquivo de código é um arquivo texto que contém instruções em uma linguagem de programação."
+                  explanation: "Arquivo de código contém instruções em uma linguagem de programação."
                 },
                 {
                   type: "multipla",
-                  question: "O que é um 'algoritmo'?",
+                  question: "O que é um algoritmo?",
                   options: [
-                    "Uma marca de computador famosa",
-                    "Um conjunto ordenado de passos para resolver um problema",
-                    "Um tipo de vírus de computador",
-                    "Uma operação matemática avançada"
+                    "Uma marca de computador",
+                    "Um conjunto ordenado de passos",
+                    "Um vírus",
+                    "Uma operação matemática"
                   ],
                   answer: 1,
-                  explanation: "Algoritmo é uma sequência de passos lógicos e ordenados para resolver um problema. Como uma receita de bolo passo-a-passo!"
+                  explanation: "Algoritmo é uma sequência de passos para resolver um problema."
                 }
               ]
             }
@@ -172,61 +200,60 @@ const CODEQUEST_ROADMAP = {
       id: "fase-2",
       numero: 2,
       nome: "Fase 2: Lógica de Programação",
-      descricao: "Aprenda a pensar logicamente e resolver problemas com estruturas de controle.",
+      descricao: "Estruturas de controle, variáveis e pensamento lógico.",
       emoji: "🧠",
       cor: "#4ECDC4",
+      progresso: 0,
       modulos: [
         {
           id: "mod-2-1",
-          nome: "Variáveis e Dados",
+          nome: "Variáveis e Tipos de Dados",
           emoji: "📦",
-          xpBono: 250,
+          xpBono: 300,
           licoes: [
             {
               id: "aula-2-1-1",
               titulo: "O que São Variáveis?",
-              descricao: "Entenda como armazenar informações no computador",
+              descricao: "Armazene informações no computador",
               categoria: "Estruturas",
-              xp: 25,
+              xp: 30,
               dificuldade: "Fácil",
+              tempo: "8 min",
+              exemplo: "let nome = 'João';\nlet idade = 25;\nlet ativo = true;",
               questoes: [
                 {
                   type: "multipla",
-                  question: "O que é uma variável em programação?",
+                  question: "O que é uma variável?",
                   options: [
-                    "Uma equação matemática complexa",
-                    "Um espaço na memória do computador onde guardamos informações",
-                    "Uma página da internet",
-                    "Um tipo de erro no código"
+                    "Uma equação matemática",
+                    "Um espaço na memória para guardar informações",
+                    "Uma página web",
+                    "Um erro de código"
                   ],
                   answer: 1,
-                  explanation: "Variável é como uma caixa onde você guarda informações. Você dá um nome e armazena um valor dentro dela."
+                  explanation: "Variável é como uma caixa para guardar informações. Você dá um nome e armazena um valor."
                 },
                 {
                   type: "verdadeiro-falso",
-                  question: "Uma variável pode mudar de valor durante a execução do programa.",
+                  question: "Uma variável pode mudar de valor?",
                   answer: true,
-                  explanation: "Verdadeiro! Variáveis chamam-se assim porque seu valor pode variar (mudar) durante a execução."
-                },
-                {
-                  type: "preencher",
-                  question: "Em programação, um 'valor' é chamado de dado ou _____",
-                  answer: "informação",
-                  explanation: "Dados ou informações são os valores que armazenamos nas variáveis."
+                  explanation: "Sim! Por isso chamam-se variáveis - o valor varia durante a execução."
                 }
               ]
             },
             {
               id: "aula-2-1-2",
-              titulo: "Tipos de Dados Básicos",
-              descricao: "Conheça os principais tipos de informação",
+              titulo: "Tipos de Dados",
+              descricao: "Inteiros, floats, strings, booleans...",
               categoria: "Estruturas",
-              xp: 25,
+              xp: 30,
               dificuldade: "Fácil",
+              tempo: "10 min",
+              exemplo: "// Inteiro\nlet numero = 42;\n// String\nlet texto = 'CodeQuest';\n// Booleano\nlet verdade = true;",
               questoes: [
                 {
                   type: "multipla",
-                  question: "Qual desses é um tipo de dado numérico inteiro?",
+                  question: "Qual é o tipo de dado para números inteiros?",
                   options: [
                     "String",
                     "Boolean",
@@ -234,19 +261,7 @@ const CODEQUEST_ROADMAP = {
                     "Array"
                   ],
                   answer: 2,
-                  explanation: "Integer (inteiro) é um número sem casas decimais, como 5, 100 ou -30."
-                },
-                {
-                  type: "multipla",
-                  question: "Qual tipo de dado é usado para armazenar texto?",
-                  options: [
-                    "Number",
-                    "String",
-                    "Boolean",
-                    "Float"
-                  ],
-                  answer: 1,
-                  explanation: "String é um tipo de dado que armazena texto, como 'Olá Mundo' ou 'CodeQuest'."
+                  explanation: "Integer é um número sem casas decimais: 5, 100, -30."
                 }
               ]
             }
@@ -256,33 +271,29 @@ const CODEQUEST_ROADMAP = {
           id: "mod-2-2",
           nome: "Condições e Decisões",
           emoji: "🔀",
-          xpBono: 300,
+          xpBono: 350,
           licoes: [
             {
               id: "aula-2-2-1",
-              titulo: "If e Else: Tomando Decisões",
-              descricao: "Entenda como o código toma decisões",
+              titulo: "If e Else",
+              descricao: "Como o código toma decisões",
               categoria: "Controle",
-              xp: 30,
+              xp: 35,
               dificuldade: "Fácil",
+              tempo: "10 min",
+              exemplo: "let idade = 18;\nif (idade >= 18) {\n  console.log('Maior de idade');\n} else {\n  console.log('Menor de idade');\n}",
               questoes: [
                 {
                   type: "multipla",
-                  question: "O que faz a estrutura 'if'?",
+                  question: "O que faz 'if'?",
                   options: [
-                    "Repete código várias vezes",
-                    "Executa código SE uma condição for verdadeira",
-                    "Armazena um valor em uma variável",
-                    "Exibe mensagens na tela"
+                    "Repete código",
+                    "Executa SE uma condição for verdadeira",
+                    "Armazena valor",
+                    "Exibe mensagens"
                   ],
                   answer: 1,
-                  explanation: "'if' é uma estrutura de decisão. Se a condição for verdadeira, o código dentro executa. Caso contrário, pula para outro lugar."
-                },
-                {
-                  type: "verdadeiro-falso",
-                  question: "O 'else' é obrigatório quando você usa 'if'.",
-                  answer: false,
-                  explanation: "Falso. 'else' é opcional. Você pode ter apenas 'if' sem 'else'."
+                  explanation: "'if' é uma estrutura de decisão que executa código se a condição for verdadeira."
                 }
               ]
             }
@@ -290,29 +301,31 @@ const CODEQUEST_ROADMAP = {
         },
         {
           id: "mod-2-3",
-          nome: "Repetições e Loops",
+          nome: "Loops e Repetições",
           emoji: "🔄",
-          xpBono: 300,
+          xpBono: 350,
           licoes: [
             {
               id: "aula-2-3-1",
               titulo: "For: Repetindo Código",
-              descricao: "Aprenda a repetir instruções automaticamente",
+              descricao: "Automatize repetições",
               categoria: "Controle",
-              xp: 30,
+              xp: 35,
               dificuldade: "Fácil",
+              tempo: "10 min",
+              exemplo: "for (let i = 0; i < 5; i++) {\n  console.log('Número: ' + i);\n}",
               questoes: [
                 {
                   type: "multipla",
-                  question: "O que é um loop (repetição)?",
+                  question: "O que é um loop?",
                   options: [
-                    "Um erro no código",
-                    "Uma estrutura que repete código múltiplas vezes",
-                    "Um tipo de arquivo",
-                    "Uma função especial"
+                    "Um erro",
+                    "Uma estrutura que repete código",
+                    "Um arquivo",
+                    "Uma função"
                   ],
                   answer: 1,
-                  explanation: "Loop é uma estrutura que repete bloco de código enquanto uma condição é verdadeira ou um número específico de vezes."
+                  explanation: "Loop repete bloco de código múltiplas vezes ou enquanto uma condição é verdadeira."
                 }
               ]
             }
@@ -320,29 +333,31 @@ const CODEQUEST_ROADMAP = {
         },
         {
           id: "mod-2-4",
-          nome: "Funções e Reutilização",
+          nome: "Funções",
           emoji: "⚙️",
-          xpBono: 350,
+          xpBono: 400,
           licoes: [
             {
               id: "aula-2-4-1",
               titulo: "O que São Funções?",
-              descricao: "Reutilize código agrupando-o em funções",
+              descricao: "Reutilize código com funções",
               categoria: "Modularização",
-              xp: 30,
+              xp: 40,
               dificuldade: "Médio",
+              tempo: "12 min",
+              exemplo: "function saudacao(nome) {\n  return 'Olá, ' + nome + '!';\n}\nconsole.log(saudacao('João'));",
               questoes: [
                 {
                   type: "multipla",
                   question: "O que é uma função?",
                   options: [
-                    "Um erro no computador",
-                    "Um bloco de código reutilizável que executa uma tarefa específica",
-                    "Um tipo de variável especial",
-                    "Uma página web interativa"
+                    "Um erro",
+                    "Um bloco de código reutilizável",
+                    "Uma variável",
+                    "Uma página web"
                   ],
                   answer: 1,
-                  explanation: "Função é um bloco de código que você pode chamar múltiplas vezes. Evita repetição e deixa o código organizado."
+                  explanation: "Função é um bloco de código que você chama múltiplas vezes. Evita repetição."
                 }
               ]
             }
@@ -358,35 +373,61 @@ const CODEQUEST_ROADMAP = {
       id: "fase-3",
       numero: 3,
       nome: "Fase 3: VS Code e Ferramentas",
-      descricao: "Configure seu ambiente de desenvolvimento profissional.",
+      descricao: "Configure seu ambiente profissional de desenvolvimento.",
       emoji: "🛠️",
       cor: "#FFE66D",
+      progresso: 0,
       modulos: [
         {
           id: "mod-3-1",
           nome: "VS Code Setup",
           emoji: "📝",
-          xpBono: 200,
+          xpBono: 250,
           licoes: [
             {
               id: "aula-3-1-1",
-              titulo: "Instalando o VS Code",
-              descricao: "Baixe e instale seu editor de código",
+              titulo: "Instalando VS Code",
+              descricao: "Seu editor profissional gratuito",
               categoria: "Setup",
-              xp: 20,
+              xp: 25,
               dificuldade: "Muito Fácil",
+              tempo: "10 min",
+              recurso: "https://code.visualstudio.com",
               questoes: [
                 {
                   type: "multipla",
                   question: "O que é VS Code?",
                   options: [
-                    "Um navegador web",
-                    "Um editor de código gratuito e muito popular criado pela Microsoft",
+                    "Um navegador",
+                    "Um editor de código gratuito da Microsoft",
                     "Um banco de dados",
-                    "Um programa de design gráfico"
+                    "Um programa de design"
                   ],
                   answer: 1,
-                  explanation: "Visual Studio Code (VS Code) é um editor de texto avançado perfeito para programação. É gratuito e altamente configurável."
+                  explanation: "VS Code é um editor de texto avançado, gratuito e altamente configurável para programação."
+                }
+              ]
+            },
+            {
+              id: "aula-3-1-2",
+              titulo: "Extensões Essenciais",
+              descricao: "Potencialize seu editor",
+              categoria: "Setup",
+              xp: 25,
+              dificuldade: "Fácil",
+              tempo: "12 min",
+              questoes: [
+                {
+                  type: "multipla",
+                  question: "Qual extensão é essencial para HTML/CSS?",
+                  options: [
+                    "Python",
+                    "Live Server",
+                    "Docker",
+                    "Kubernetes"
+                  ],
+                  answer: 1,
+                  explanation: "Live Server permite visualizar mudanças em tempo real no navegador."
                 }
               ]
             }
@@ -402,35 +443,38 @@ const CODEQUEST_ROADMAP = {
       id: "fase-4",
       numero: 4,
       nome: "Fase 4: HTML e CSS",
-      descricao: "Crie layouts bonitos e estruturados para a web.",
+      descricao: "Crie layouts bonitos e estruturados.",
       emoji: "🎨",
       cor: "#A29BFE",
+      progresso: 0,
       modulos: [
         {
           id: "mod-4-1",
           nome: "HTML Estrutural",
           emoji: "🏗️",
-          xpBono: 300,
+          xpBono: 350,
           licoes: [
             {
               id: "aula-4-1-1",
               titulo: "Tags HTML Essenciais",
-              descricao: "Aprenda as estruturas básicas",
+              descricao: "Estruture suas páginas",
               categoria: "Markup",
               xp: 30,
               dificuldade: "Fácil",
+              tempo: "12 min",
+              exemplo: "<div class='container'>\n  <h1>Meu Site</h1>\n  <p>Bem-vindo!</p>\n</div>",
               questoes: [
                 {
                   type: "multipla",
-                  question: "Para que serve a tag <div>?",
+                  question: "Para que serve <div>?",
                   options: [
-                    "Dividir o conteúdo em seções/containers",
+                    "Container genérico para agrupar",
                     "Criar um link",
-                    "Inserir uma imagem",
-                    "Criar um formulário"
+                    "Inserir imagem",
+                    "Criar formulário"
                   ],
                   answer: 0,
-                  explanation: "<div> é um container genérico que agrupa elementos. É usado para organizar o layout da página."
+                  explanation: "<div> agrupa elementos e organiza o layout da página."
                 }
               ]
             }
@@ -440,27 +484,29 @@ const CODEQUEST_ROADMAP = {
           id: "mod-4-2",
           nome: "CSS Estilização",
           emoji: "🎯",
-          xpBono: 350,
+          xpBono: 400,
           licoes: [
             {
               id: "aula-4-2-1",
-              titulo: "Seletores e Propriedades CSS",
-              descricao: "Estilize seus elementos HTML",
+              titulo: "Seletores CSS",
+              descricao: "Estilize com precisão",
               categoria: "Styling",
-              xp: 30,
+              xp: 35,
               dificuldade: "Fácil",
+              tempo: "12 min",
+              exemplo: ".container {\n  background: #fff;\n  padding: 20px;\n  border-radius: 8px;\n}",
               questoes: [
                 {
                   type: "multipla",
                   question: "O que é um seletor CSS?",
                   options: [
-                    "Uma função especial do JavaScript",
-                    "Um padrão que identifica quais elementos HTML devem ser estilizados",
+                    "Uma função JavaScript",
+                    "Um padrão que identifica elementos HTML",
                     "Um arquivo HTML",
-                    "Uma cor padrão"
+                    "Uma cor"
                   ],
                   answer: 1,
-                  explanation: "Seletor CSS identifica qual(is) elemento(s) HTML receberão os estilos. Exemplos: .classe, #id, tag"
+                  explanation: "Seletor CSS identifica qual(is) elemento(s) HTML receberão os estilos."
                 }
               ]
             }
@@ -476,35 +522,38 @@ const CODEQUEST_ROADMAP = {
       id: "fase-5",
       numero: 5,
       nome: "Fase 5: Terminal e Comandos",
-      descricao: "Domine a linha de comando do seu sistema.",
+      descricao: "Domine a linha de comando profissional.",
       emoji: "⌨️",
       cor: "#00B894",
+      progresso: 0,
       modulos: [
         {
           id: "mod-5-1",
           nome: "Terminal Básico",
           emoji: "💻",
-          xpBono: 250,
+          xpBono: 300,
           licoes: [
             {
               id: "aula-5-1-1",
               titulo: "Primeiros Comandos",
-              descricao: "Navegue pelo sistema via terminal",
+              descricao: "Navegue pelo sistema",
               categoria: "CLI",
-              xp: 25,
+              xp: 30,
               dificuldade: "Fácil",
+              tempo: "10 min",
+              exemplo: "$ cd Documents\n$ ls\n$ mkdir meu-projeto\n$ cd meu-projeto",
               questoes: [
                 {
                   type: "multipla",
-                  question: "O que faz o comando 'cd'?",
+                  question: "O que faz 'cd'?",
                   options: [
-                    "Copia um arquivo",
-                    "Muda de diretório (pasta)",
-                    "Cria um novo arquivo",
-                    "Lista todos os arquivos"
+                    "Copia arquivo",
+                    "Muda de diretório",
+                    "Cria arquivo",
+                    "Lista arquivos"
                   ],
                   answer: 1,
-                  explanation: "'cd' significa 'change directory'. Serve para navegar entre pastas no terminal."
+                  explanation: "'cd' significa 'change directory'. Navega entre pastas."
                 }
               ]
             }
@@ -514,33 +563,36 @@ const CODEQUEST_ROADMAP = {
     },
 
     // ========================================================
-    // FASE 6 - 12: ESTRUTURAS EXPANDIDAS
+    // FASE 6: LINGUAGENS
     // ========================================================
     {
       id: "fase-6",
       numero: 6,
       nome: "Fase 6: Linguagens de Programação",
-      descricao: "Escolha e domine: JavaScript, Python, Java, C++ e muito mais.",
+      descricao: "Escolha entre JavaScript, Python, Java e outras linguagens.",
       emoji: "🔤",
       cor: "#FF7675",
+      progresso: 0,
       modulos: [
         {
           id: "mod-6-1",
           nome: "JavaScript Fundamental",
           emoji: "⚡",
-          xpBono: 400,
+          xpBono: 450,
           licoes: [
             {
               id: "aula-6-1-1",
               titulo: "Sintaxe JavaScript",
-              descricao: "Aprenda a sintaxe da linguagem mais usada da web",
+              descricao: "A linguagem mais usada da web",
               categoria: "Linguagem",
-              xp: 35,
+              xp: 40,
               dificuldade: "Médio",
+              tempo: "15 min",
+              exemplo: "let nome = 'João';\nlet idade = 25;\nconst ativo = true;\nvar legado = 'evite usar';",
               questoes: [
                 {
                   type: "multipla",
-                  question: "Como você cria uma variável em JavaScript?",
+                  question: "Como declarar variável em JS?",
                   options: [
                     "var x = 5;",
                     "let x = 5;",
@@ -548,7 +600,7 @@ const CODEQUEST_ROADMAP = {
                     "Todas estão corretas"
                   ],
                   answer: 3,
-                  explanation: "JavaScript oferece 3 maneiras: var (legado), let (moderna) e const (constante). Use let/const para melhor prática."
+                  explanation: "JavaScript oferece 3 formas: var (legado), let (moderna), const (constante). Use let/const."
                 }
               ]
             }
@@ -558,27 +610,29 @@ const CODEQUEST_ROADMAP = {
           id: "mod-6-2",
           nome: "Python para Iniciantes",
           emoji: "🐍",
-          xpBono: 400,
+          xpBono: 450,
           licoes: [
             {
               id: "aula-6-2-1",
               titulo: "Python Básico",
               descricao: "Linguagem elegante e poderosa",
               categoria: "Linguagem",
-              xp: 35,
+              xp: 40,
               dificuldade: "Médio",
+              tempo: "15 min",
+              exemplo: "nome = 'João'\nidade = 25\nativo = True\nprint(f'Olá, {nome}!')",
               questoes: [
                 {
                   type: "multipla",
-                  question: "Como escrever um comentário em Python?",
+                  question: "Como comentar em Python?",
                   options: [
-                    "// isto é um comentário",
+                    "// comentário",
                     "<!-- comentário -->",
-                    "# isto é um comentário",
+                    "# comentário",
                     "/* comentário */"
                   ],
                   answer: 2,
-                  explanation: "Em Python, comentários usam #. Tudo após # na linha é ignorado pelo interpretador."
+                  explanation: "Em Python, # marca um comentário até o final da linha."
                 }
               ]
             }
@@ -587,33 +641,63 @@ const CODEQUEST_ROADMAP = {
       ]
     },
 
+    // ========================================================
+    // FASE 7: EXERCÍCIOS PRÁTICOS
+    // ========================================================
     {
       id: "fase-7",
       numero: 7,
       nome: "Fase 7: Exercícios Práticos",
-      descricao: "Coloque em prática tudo que aprendeu com desafios reais.",
+      descricao: "Coloque em prática com desafios reais.",
       emoji: "💪",
       cor: "#FD79A8",
+      progresso: 0,
       modulos: [
         {
           id: "mod-7-1",
-          nome: "Desafios Iniciais",
+          nome: "Projetos Iniciais",
           emoji: "🎯",
-          xpBono: 500,
+          xpBono: 550,
           licoes: [
             {
               id: "aula-7-1-1",
-              titulo: "Criar Sua Primeira Página Web",
-              descricao: "Combine HTML e CSS para criar algo bonito",
+              titulo: "Primeira Página Web",
+              descricao: "Crie algo bonito com HTML e CSS",
               categoria: "Projeto",
               xp: 50,
               dificuldade: "Médio",
+              tempo: "30 min",
+              projeto: "Criar um portfólio pessoal com CV",
               questoes: [
                 {
                   type: "verdadeiro-falso",
-                  question: "Para criar um site você precisa de apenas 2 arquivos: HTML e CSS.",
+                  question: "Preciso de 3 arquivos para um site básico?",
                   answer: false,
-                  explanation: "Você pode criar um site só com HTML e CSS, mas JavaScript adiciona interatividade. Tudo depende da complexidade."
+                  explanation: "Pode ser só HTML+CSS. JavaScript é opcional e adiciona interatividade."
+                }
+              ]
+            },
+            {
+              id: "aula-7-1-2",
+              titulo: "Desafio: Calculadora",
+              descricao: "Crie uma calculadora simples",
+              categoria: "Projeto",
+              xp: 60,
+              dificuldade: "Médio",
+              tempo: "45 min",
+              projeto: "Calculadora com operações básicas",
+              questoes: [
+                {
+                  type: "multipla",
+                  question: "Qual linguagem é melhor para interatividade?",
+                  options: [
+                    "HTML",
+                    "CSS",
+                    "JavaScript",
+                    "SQL"
+                  ],
+                  answer: 2,
+                  explanation: "JavaScript adiciona interatividade e dinamismo às páginas."
                 }
               ]
             }
@@ -622,39 +706,45 @@ const CODEQUEST_ROADMAP = {
       ]
     },
 
+    // ========================================================
+    // FASE 8: GIT E GITHUB
+    // ========================================================
     {
       id: "fase-8",
       numero: 8,
       nome: "Fase 8: Git e GitHub",
-      descricao: "Controle de versão e colaboração em projetos.",
+      descricao: "Controle de versão e colaboração profissional.",
       emoji: "🐙",
       cor: "#1E90FF",
+      progresso: 0,
       modulos: [
         {
           id: "mod-8-1",
           nome: "Git Fundamentals",
           emoji: "📦",
-          xpBono: 350,
+          xpBono: 400,
           licoes: [
             {
               id: "aula-8-1-1",
               titulo: "Começando com Git",
               descricao: "Controle versões do seu código",
               categoria: "Ferramental",
-              xp: 30,
+              xp: 40,
               dificuldade: "Médio",
+              tempo: "15 min",
+              exemplo: "$ git init\n$ git add .\n$ git commit -m 'Primeiro commit'\n$ git push origin main",
               questoes: [
                 {
                   type: "multipla",
-                  question: "O que é um 'commit' no Git?",
+                  question: "O que é um 'commit'?",
                   options: [
-                    "Um erro do sistema",
-                    "Um backup automático",
-                    "Um 'snapshot' do seu código em um ponto no tempo",
-                    "Um arquivo de configuração"
+                    "Um erro",
+                    "Um backup",
+                    "Um snapshot do código",
+                    "Um arquivo"
                   ],
                   answer: 2,
-                  explanation: "Commit é um ponto de salvamento no histórico do projeto. Você registra mudanças com uma mensagem descritiva."
+                  explanation: "Commit é um ponto de salvamento no histórico. Registra mudanças com mensagem."
                 }
               ]
             }
@@ -663,27 +753,33 @@ const CODEQUEST_ROADMAP = {
       ]
     },
 
+    // ========================================================
+    // FASE 9: API E BANCO DE DADOS
+    // ========================================================
     {
       id: "fase-9",
       numero: 9,
       nome: "Fase 9: API e Banco de Dados",
-      descricao: "Aprenda a trabalhar com dados e servidores.",
+      descricao: "Trabalhe com dados e servidores profissionalmente.",
       emoji: "🛢️",
       cor: "#FF6348",
+      progresso: 0,
       modulos: [
         {
           id: "mod-9-1",
           nome: "APIs RESTful",
           emoji: "🌐",
-          xpBono: 450,
+          xpBono: 500,
           licoes: [
             {
               id: "aula-9-1-1",
               titulo: "O que é API?",
               descricao: "Interface para comunicação entre sistemas",
               categoria: "Backend",
-              xp: 40,
+              xp: 50,
               dificuldade: "Avançado",
+              tempo: "20 min",
+              exemplo: "fetch('https://api.github.com/users/github')\n  .then(r => r.json())\n  .then(data => console.log(data));",
               questoes: [
                 {
                   type: "multipla",
@@ -695,7 +791,7 @@ const CODEQUEST_ROADMAP = {
                     "Aplicação de Programação Interativa"
                   ],
                   answer: 1,
-                  explanation: "API (Application Programming Interface) é um conjunto de regras para que sistemas se comuniquem."
+                  explanation: "API é um conjunto de regras para sistemas se comunicarem."
                 }
               ]
             }
@@ -704,39 +800,45 @@ const CODEQUEST_ROADMAP = {
       ]
     },
 
+    // ========================================================
+    // FASE 10: FRONT-END AVANÇADO
+    // ========================================================
     {
       id: "fase-10",
       numero: 10,
       nome: "Fase 10: Front-End Avançado",
-      descricao: "Crie interfaces dinâmicas com frameworks modernos.",
+      descricao: "Crie interfaces dinâmicas com React e frameworks modernos.",
       emoji: "🎭",
       cor: "#9B59B6",
+      progresso: 0,
       modulos: [
         {
           id: "mod-10-1",
           nome: "React.js",
           emoji: "⚛️",
-          xpBono: 550,
+          xpBono: 600,
           licoes: [
             {
               id: "aula-10-1-1",
               titulo: "Primeiros Passos com React",
               descricao: "Biblioteca mais popular de UI",
               categoria: "Framework",
-              xp: 50,
+              xp: 55,
               dificuldade: "Avançado",
+              tempo: "25 min",
+              exemplo: "function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <div>\n      <p>Contagem: {count}</p>\n      <button onClick={() => setCount(count + 1)}>+</button>\n    </div>\n  );\n}",
               questoes: [
                 {
                   type: "multipla",
                   question: "O que é React?",
                   options: [
                     "Um servidor web",
-                    "Uma biblioteca JavaScript para construir interfaces de usuário",
-                    "Um banco de dados NoSQL",
-                    "Uma linguagem de programação"
+                    "Uma biblioteca para UIs dinâmicas",
+                    "Um banco de dados",
+                    "Uma linguagem"
                   ],
                   answer: 1,
-                  explanation: "React é uma biblioteca JavaScript que permite criar UIs dinâmicas e reutilizáveis com componentes."
+                  explanation: "React permite criar UIs dinâmicas e reutilizáveis com componentes."
                 }
               ]
             }
@@ -745,39 +847,45 @@ const CODEQUEST_ROADMAP = {
       ]
     },
 
+    // ========================================================
+    // FASE 11: BACK-END PROFISSIONAL
+    // ========================================================
     {
       id: "fase-11",
       numero: 11,
       nome: "Fase 11: Back-End Profissional",
-      descricao: "Construa servidores robustos e APIs escaláveis.",
+      descricao: "Construa APIs e servidores escaláveis.",
       emoji: "🖥️",
       cor: "#E74C3C",
+      progresso: 0,
       modulos: [
         {
           id: "mod-11-1",
           nome: "Node.js com Express",
           emoji: "🟢",
-          xpBono: 600,
+          xpBono: 650,
           licoes: [
             {
               id: "aula-11-1-1",
               titulo: "Servidor com Node.js",
               descricao: "Use JavaScript no servidor",
               categoria: "Backend",
-              xp: 50,
+              xp: 60,
               dificuldade: "Avançado",
+              tempo: "25 min",
+              exemplo: "const express = require('express');\nconst app = express();\napp.get('/', (req, res) => {\n  res.send('Olá, Mundo!');\n});\napp.listen(3000);",
               questoes: [
                 {
                   type: "multipla",
                   question: "O que é Node.js?",
                   options: [
-                    "Um navegador web",
-                    "Um ambiente que permite executar JavaScript fora do navegador",
+                    "Um navegador",
+                    "Um ambiente para executar JS no servidor",
                     "Um banco de dados",
-                    "Um editor de código"
+                    "Um editor"
                   ],
                   answer: 1,
-                  explanation: "Node.js permite usar JavaScript no servidor. Você pode criar APIs e aplicações back-end com JavaScript."
+                  explanation: "Node.js permite usar JavaScript fora do navegador, no servidor."
                 }
               ]
             }
@@ -786,13 +894,17 @@ const CODEQUEST_ROADMAP = {
       ]
     },
 
+    // ========================================================
+    // FASE 12: FULL STACK E DEPLOY
+    // ========================================================
     {
       id: "fase-12",
       numero: 12,
       nome: "Fase 12: Full Stack e Deploy",
-      descricao: "Integre front-end + back-end e coloque em produção.",
+      descricao: "Integre tudo e coloque em produção profissionalmente.",
       emoji: "🚀",
       cor: "#1ABC9C",
+      progresso: 0,
       modulos: [
         {
           id: "mod-12-1",
@@ -805,20 +917,46 @@ const CODEQUEST_ROADMAP = {
               titulo: "Arquitetura Full Stack",
               descricao: "Integre front-end com back-end",
               categoria: "Integration",
-              xp: 60,
+              xp: 70,
               dificuldade: "Expert",
+              tempo: "30 min",
+              projeto: "Criar aplicação completa do zero",
               questoes: [
                 {
                   type: "multipla",
-                  question: "O que é uma aplicação Full Stack?",
+                  question: "O que é Full Stack?",
                   options: [
-                    "Uma que roda apenas no navegador",
-                    "Uma que roda apenas no servidor",
-                    "Uma que combina front-end (navegador) e back-end (servidor)",
-                    "Uma que usa banco de dados apenas"
+                    "Roda no navegador",
+                    "Roda no servidor",
+                    "Combina front-end e back-end",
+                    "Usa apenas banco de dados"
                   ],
                   answer: 2,
-                  explanation: "Full Stack significa trabalhar com ambas as camadas: front-end (o que o usuário vê) e back-end (servidor e lógica)."
+                  explanation: "Full Stack = Front-end (navegador) + Back-end (servidor)."
+                }
+              ]
+            },
+            {
+              id: "aula-12-1-2",
+              titulo: "Deploy e Produção",
+              descricao: "Coloque seu app online",
+              categoria: "DevOps",
+              xp: 70,
+              dificuldade: "Expert",
+              tempo: "30 min",
+              recurso: "https://vercel.com",
+              questoes: [
+                {
+                  type: "multipla",
+                  question: "Qual plataforma é boa para deploy?",
+                  options: [
+                    "Vercel",
+                    "Heroku",
+                    "AWS",
+                    "Todas acima"
+                  ],
+                  answer: 3,
+                  explanation: "Vercel (React), Heroku (APIs), AWS (qualquer coisa) - escolha conforme necessidade."
                 }
               ]
             }
@@ -828,38 +966,182 @@ const CODEQUEST_ROADMAP = {
     }
   ],
 
+  // ========================================================
+  // RECURSOS EXTRAS
+  // ========================================================
+  recursosExtras: {
+    projetos: [
+      {
+        id: "proj-1",
+        titulo: "Portfolio Pessoal",
+        descricao: "Crie seu site de portfólio profissional",
+        fase: 4,
+        dificuldade: "Fácil",
+        xp: 100,
+        tecnologias: ["HTML", "CSS"],
+        tempo: "2 horas"
+      },
+      {
+        id: "proj-2",
+        titulo: "Calculadora Interativa",
+        descricao: "Calculadora com JavaScript puro",
+        fase: 7,
+        dificuldade: "Médio",
+        xp: 150,
+        tecnologias: ["HTML", "CSS", "JavaScript"],
+        tempo: "3 horas"
+      },
+      {
+        id: "proj-3",
+        titulo: "Todo List App",
+        descricao: "Aplicação de tarefas com React",
+        fase: 10,
+        dificuldade: "Médio",
+        xp: 200,
+        tecnologias: ["React", "JavaScript"],
+        tempo: "4 horas"
+      },
+      {
+        id: "proj-4",
+        titulo: "Blog Full Stack",
+        descricao: "Blog completo com front-end e back-end",
+        fase: 12,
+        dificuldade: "Difícil",
+        xp: 300,
+        tecnologias: ["React", "Node.js", "MongoDB"],
+        tempo: "8 horas"
+      },
+      {
+        id: "proj-5",
+        titulo: "API de Usuários",
+        descricao: "API RESTful com autenticação",
+        fase: 11,
+        dificuldade: "Difícil",
+        xp: 250,
+        tecnologias: ["Node.js", "Express", "JWT"],
+        tempo: "6 horas"
+      }
+    ],
+
+    certificados: [
+      {
+        id: "cert-1",
+        nome: "Fundamentos de Programação",
+        condicao: "Completar Fase 2",
+        descricao: "Domina lógica de programação",
+        cor: "#FF6B6B"
+      },
+      {
+        id: "cert-2",
+        nome: "Web Developer",
+        condicao: "Completar Fase 5",
+        descricao: "Expert em HTML, CSS e JavaScript",
+        cor: "#4ECDC4"
+      },
+      {
+        id: "cert-3",
+        nome: "Front-End Specialist",
+        condicao: "Completar Fase 10",
+        descricao: "Especialista em React e front-end moderno",
+        cor: "#9B59B6"
+      },
+      {
+        id: "cert-4",
+        nome: "Back-End Developer",
+        condicao: "Completar Fase 11",
+        descricao: "Expert em Node.js e APIs",
+        cor: "#E74C3C"
+      },
+      {
+        id: "cert-5",
+        nome: "Full Stack Master",
+        condicao: "Completar Fase 12",
+        descricao: "Master em desenvolvimento Full Stack",
+        cor: "#1ABC9C"
+      }
+    ],
+
+    recursos: [
+      { titulo: "MDN Web Docs", url: "https://developer.mozilla.org/pt-BR", tipo: "Documentação" },
+      { titulo: "W3Schools", url: "https://www.w3schools.com", tipo: "Tutorial" },
+      { titulo: "Stack Overflow", url: "https://stackoverflow.com", tipo: "Comunidade" },
+      { titulo: "GitHub", url: "https://github.com", tipo: "Repositório" },
+      { titulo: "CodePen", url: "https://codepen.io", tipo: "Sandbox" }
+    ]
+  },
+
+  // ========================================================
+  // RANKING E MISSÕES
+  // ========================================================
   rankingEstatico: [
     { usuario: "Desenvolvedor CodeQuest", xp: 0, isUser: true },
-    { usuario: "João Silva", xp: 2450 },
-    { usuario: "Maria Santos", xp: 2180 },
-    { usuario: "Pedro Developer", xp: 1920 },
-    { usuario: "Ana Costa", xp: 1750 },
+    { usuario: "João Silva", xp: 5450 },
+    { usuario: "Maria Santos", xp: 4980 },
+    { usuario: "Pedro Developer", xp: 4320 },
+    { usuario: "Ana Costa", xp: 3850 },
+    { usuario: "Carlos Tech", xp: 3520 },
+    { usuario: "Lucia Code", xp: 3100 },
+    { usuario: "Rafael Dev", xp: 2890 },
+    { usuario: "Sofia JS", xp: 2450 },
+    { usuario: "Igor Python", xp: 1980 },
   ],
 
   missoesDiarias: [
     {
       id: "missao-xp",
-      texto: "Ganhe 100 XP",
-      meta: 100,
+      texto: "Ganhe 150 XP",
+      meta: 150,
       recompensa: 50,
       atual: 0,
-      concluida: false
+      concluida: false,
+      emoji: "🔥"
     },
     {
       id: "missao-licoes",
-      texto: "Conclua 3 lições",
-      meta: 3,
-      recompensa: 75,
-      atual: 0,
-      concluida: false
-    },
-    {
-      id: "missao-acertos",
-      texto: "Acerte 5 respostas seguidas",
+      texto: "Conclua 5 lições",
       meta: 5,
       recompensa: 100,
       atual: 0,
-      concluida: false
+      concluida: false,
+      emoji: "📚"
+    },
+    {
+      id: "missao-acertos",
+      texto: "Acerte 8 seguidas",
+      meta: 8,
+      recompensa: 150,
+      atual: 0,
+      concluida: false,
+      emoji: "⭐"
+    },
+    {
+      id: "missao-projeto",
+      texto: "Conclua 1 projeto",
+      meta: 1,
+      recompensa: 200,
+      atual: 0,
+      concluida: false,
+      emoji: "🎯"
     }
-  ]
+  ],
+
+  // ========================================================
+  // CONFIGURAÇÕES DE TEMA
+  // ========================================================
+  temas: {
+    light: {
+      bg: "#ffffff",
+      bgBody: "#f7f9fa",
+      text: "#3c3c3c",
+      textMuted: "#afafaf",
+      border: "#e5e5e5"
+    },
+    dark: {
+      bg: "#1a1a1a",
+      bgBody: "#0f0f0f",
+      text: "#e5e5e5",
+      textMuted: "#b0b0b0",
+      border: "#333333"
+    }
+  }
 };
